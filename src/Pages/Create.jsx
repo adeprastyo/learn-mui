@@ -13,9 +13,10 @@
     style nya.
 */
 
-import { Container, Typography, Button } from "@mui/material";
+import { Container, Typography, Button, TextField } from "@mui/material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { styled } from "@mui/system";
+import { useState } from "react";
 
 /* 
   contoh di bawah ini adalah saya mengcustom style component Button dari bawaan Mui.
@@ -30,7 +31,39 @@ const CustButton = styled(Button)({
   color: "white",
 });
 
+const CustTextField = styled(TextField)({
+  margin: "20px 0", //margin atasbawah dan kirikanan
+  display: "block",
+});
+
 export default function Create() {
+  const [title, setTitle] = useState("");
+  const [details, setDetails] = useState("");
+  const [titleError, setTitleError] = useState(false);
+  const [detailsError, setDetailsError] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setTitleError(title === "");
+    setDetailsError(details === "");
+
+    if (title && details) {
+      console.log(title, details);
+    }
+    // setTitleError(false);
+    // setDetailsError(false);
+
+    // if (title == "") {
+    //   setTitleError(true);
+    // }
+    // if (details === "") {
+    //   setDetailsError(true);
+    // }
+    // if (title && details) {
+    //   console.log(title, details);
+    // }
+  };
+
   return (
     <Container>
       <Typography
@@ -41,20 +74,42 @@ export default function Create() {
       >
         Create a New Note
       </Typography>
-      <CustButton
-        onClick={() => {
-          alert("terklik");
-        }}
-        type="submit"
-        variant="contained"
-        color="primary"
-        size="medium"
-        startIcon={
-          <AddOutlinedIcon fontSize="large" sx={{ marginRight: -1 }} />
-        }
-      >
-        Submit
-      </CustButton>
+
+      <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+        <CustTextField
+          onChange={(e) => setTitle(e.target.value)}
+          label="Title"
+          variant="outlined"
+          color="primary"
+          fullWidth
+          required
+          error={titleError}
+        />
+
+        <CustTextField
+          onChange={(e) => setDetails(e.target.value)}
+          label="Details"
+          variant="outlined"
+          color="primary"
+          fullWidth
+          required
+          multiline
+          rows={4}
+          error={detailsError}
+        />
+
+        <CustButton
+          type="submit"
+          variant="contained"
+          color="primary"
+          size="medium"
+          startIcon={
+            <AddOutlinedIcon fontSize="large" sx={{ marginRight: -1 }} />
+          }
+        >
+          Submit
+        </CustButton>
+      </form>
     </Container>
   );
 }
