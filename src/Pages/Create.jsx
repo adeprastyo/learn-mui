@@ -13,7 +13,17 @@
     style nya.
 */
 
-import { Container, Typography, Button, TextField } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Button,
+  TextField,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  FormLabel,
+  FormControl,
+} from "@mui/material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { styled } from "@mui/system";
 import { useState } from "react";
@@ -36,9 +46,15 @@ const CustTextField = styled(TextField)({
   display: "block",
 });
 
+const CustFormControl = styled(FormControl)({
+  margin: "20px 0", //margin atasbawah dan kirikanan
+  display: "block",
+});
+
 export default function Create() {
   const [title, setTitle] = useState("");
   const [details, setDetails] = useState("");
+  const [category, setCategory] = useState("todos");
   const [titleError, setTitleError] = useState(false);
   const [detailsError, setDetailsError] = useState(false);
 
@@ -48,7 +64,7 @@ export default function Create() {
     setDetailsError(details === "");
 
     if (title && details) {
-      console.log(title, details);
+      console.log(title, details, category);
     }
     // setTitleError(false);
     // setDetailsError(false);
@@ -97,6 +113,24 @@ export default function Create() {
           rows={4}
           error={detailsError}
         />
+
+        <CustFormControl>
+          <FormLabel>Note Category</FormLabel>
+          <RadioGroup
+            value={category}
+            onChange={(e) => {
+              setCategory(e.target.value);
+            }}
+          >
+            <FormControlLabel
+              value="reminder"
+              control={<Radio />}
+              label="Reminder"
+            />
+            <FormControlLabel value="todos" control={<Radio />} label="Todos" />
+            <FormControlLabel value="work" control={<Radio />} label="Work" />
+          </RadioGroup>
+        </CustFormControl>
 
         <CustButton
           type="submit"
